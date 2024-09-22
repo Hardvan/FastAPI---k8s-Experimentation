@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-hello-world
+  template:
+    metadata:
+      labels:
+        app: fastapi-hello-world
+    spec:
+      containers:
+        - name: fastapi-hello-world
+          image: hardvan/fastapi-k8s-hello-world
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-hello-world
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: fastapi-hello-world
